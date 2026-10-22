@@ -1,0 +1,172 @@
+body {
+    background-color: #0b0b0d;
+    color: #e3e3e6;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.phone-container {
+    width: 360px;
+    height: 670px;
+    background-color: #121216;
+    border: 3px solid #23232a;
+    border-radius: 28px;
+    padding: 18px;
+    box-shadow: 0px 15px 40px rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+/* Header & Dropdown */
+.market-header {
+    text-align: center;
+    background-color: #17171e;
+    padding: 12px;
+    border-radius: 14px;
+    border: 1px solid #1f1f27;
+}
+
+.pair-selector-wrap select {
+    background: #22222b;
+    color: #fff;
+    border: 1px solid #31313f;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    width: 90%;
+    outline: none;
+}
+
+.price-display {
+    margin-top: 8px;
+    font-size: 22px;
+    font-weight: 700;
+    font-family: monospace;
+}
+
+#price-change {
+    font-size: 13px;
+    margin-left: 5px;
+    font-weight: 500;
+}
+
+/* Operational States Styling */
+.bullish { color: #00e676; }
+.bearish { color: #ff1744; }
+.neutral { color: #8a8a93; }
+
+.status-ready { color: #00e676; font-weight: bold; animation: pulse 2s infinite; }
+.status-scanning { color: #ffca28; font-weight: bold; }
+
+@keyframes pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+}
+
+#start-btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #29b6f6, #0288d1);
+    color: white;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(2, 136, 209, 0.3);
+}
+
+#start-btn:disabled {
+    background: #222227;
+    color: #555;
+    box-shadow: none;
+    cursor: not-allowed;
+}
+
+/* Terminal Console View Window */
+.ai-core-terminal {
+    background-color: #070709;
+    border: 1px solid #22222b;
+    border-radius: 10px;
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+}
+
+.terminal-header {
+    background-color: #17171e;
+    padding: 5px 10px;
+    font-size: 10px;
+    font-family: monospace;
+    color: #8a8a93;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #1f1f27;
+}
+
+.terminal-body {
+    padding: 10px;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 11px;
+    overflow-y: auto;
+    flex-grow: 1;
+    color: #b9b9c0;
+}
+
+.dim { color: #4a4a5a; }
+.highlight-log { color: #00e676; text-shadow: 0 0 4px rgba(0,230,118,0.3); }
+
+/* Analytical Decision Output Screen Box */
+.signal-window {
+    background: #17171e;
+    border: 1px dashed #31313f;
+    border-radius: 10px;
+    padding: 12px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.signal-title {
+    font-size: 10px;
+    color: #8a8a93;
+    display: block;
+    margin-bottom: 4px;
+    letter-spacing: 1px;
+}
+
+.signal-output {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+/* Interactive Action Background Variations */
+.call-bg { background: rgba(0, 230, 118, 0.1); border: 1px solid #00e676; color: #00e676; }
+.put-bg { background: rgba(255, 23, 68, 0.1); border: 1px solid #ff1744; color: #ff1744; }
+.neutral-bg { background: #111; border: 1px solid #444; color: #aaa; }
+
+/* Foot Action Grid Elements */
+.trading-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.trading-actions button {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btn-buy { background-color: #00c853; box-shadow: 0 4px 10px rgba(0,200,83,0.2); }
+.btn-sell { background-color: #d50000; box-shadow: 0 4px 10px rgba(213,0,0,0.2); }

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Market Data Analysis Terminal</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="phone-container">
+        <!-- Live Market Selector Header -->
+        <div class="market-header">
+            <div class="pair-selector-wrap">
+                <select id="asset-picker" onchange="changeAsset()">
+                    <option value="bitcoin" selected>BTC / USD (Bitcoin)</option>
+                    <option value="ethereum">ETH / USD (Ethereum)</option>
+                    <option value="solana">SOL / USD (Solana)</option>
+                    <option value="ripple">XRP / USD (Ripple)</option>
+                </select>
+            </div>
+            <div class="price-display">
+                <span id="live-price">\$0.00</span>
+                <span id="price-change" class="neutral">0.00%</span>
+            </div>
+            <p>BOT ENGINE: <span id="status-text" class="status-ready">STANDBY</span></p>
+        </div>
+
+        <!-- Scanning Controls -->
+        <div class="config-panel">
+            <button id="start-btn" onclick="runLiveMarketAnalysis()">EXECUTE ALGORITHM SCAN</button>
+        </div>
+
+        <!-- Interactive AI Signal Core Terminal -->
+        <div class="ai-core-terminal">
+            <div class="terminal-header">
+                <span>🤖 AI SIGNAL ENGINE // LIVE_MODE</span>
+                <span class="ping" id="ping-timer">CONNECTED</span>
+            </div>
+            <div class="terminal-body" id="terminal-logs">
+                <p class="dim">> WAITING FOR CLIENT AGENT INITIATION...</p>
+                <p class="dim">> TICK STREAM SUBSCRIPTION TERMINATED.</p>
+            </div>
+        </div>
+
+        <!-- Informational Output Signal Window -->
+        <div class="signal-window" id="signal-box">
+            <span class="signal-title">ALGORITHMIC DECISION</span>
+            <div class="signal-output" id="signal-result">NO SYSTEM MATCH FOUND</div>
+        </div>
+
+        <!-- Action Grid Elements -->
+        <div class="trading-actions">
+            <button class="btn-buy">CALL (BUY)</button>
+            <button class="btn-sell">PUT (SELL)</button>
+        </div>
+    </div>
+
+    <script>
+        let currentPrice = 0;
+        let priceHistory = [];
+
+        // Fetch Live Market Data via Public HTTPS REST Endpoint
+        async function fetchPriceData(assetId) {
+            try {
+                const response = await fetch(`https://coingecko.com{assetId}&vs_currencies=usd&include_24hr_change=true`);
+                const data = await response.json();
+                return data[assetId];
+            } catch (error) {
+                printLog("> NETWORK PIPELINE ERROR: RATE LIMIT OR DISCONNECT.", true);
+                return null;
+            }
+        }
+
+        // Keep updating target asset pricing details
+        async function updatePriceTick() {
+            const asset = document.getElementById('asset-picker').value;
+            const marketData = await fetchPriceData(asset);
+
+            if (marketData) {
+                currentPrice = marketData.usd;
+                const change24h = marketData.usd_24h_change;
+
+                // Track historical price array structure for engine scans
+                priceHistory.push(currentPrice);
+                if(priceHistory.length > 10) priceHistory.shift();
+
+                document.getElementById('live-price').innerText = "\$" + currentPrice.toLocaleString(undefined, {minimumFractionDigits: 2});
+
+                const changeEl = document.getElementById('price-change');
+                changeEl.innerText = (change24h >= 0 ? "+" : "") + change24h.toFixed(2) + "%";
+                changeEl.className = change24h >= 0 ? "bullish" : "bearish";
+            }
+        }
+
+        function printLog(text, isDim = false, isHighlight = false) {
+            const logsContainer = document.getElementById('terminal-logs');
+            const p = document.createElement('p');
+            p.innerText = text;
+            if(isDim) p.className = 'dim';
+            if(isHighlight) p.className = 'highlight-log';
+            logsContainer.appendChild(p);
+            logsContainer.scrollTop = logsContainer.scrollHeight;
+        }
+
+        function changeAsset() {
+            priceHistory = [];
+            document.getElementById('signal-box').className = "signal-window";
+            document.getElementById('signal-result').innerText = "ASSET SWITCHED. AWAITING FEED...";
+            printLog(`> SUBSCRIBING TARGET REGION: ${document.getElementById('asset-picker').value.toUpperCase()}/USD`);
+            updatePriceTick();
+        }
+
+        // Real Market Analysis Logic Loop
+        async function runLiveMarketAnalysis() {
+            const btn = document.getElementById('start-btn');
+            const status = document.getElementById('status-text');
+            const signalBox = document.getElementById('signal-box');
+            const signalResult = document.getElementById('signal-result');
+            const asset = document.getElementById('asset-picker').value.toUpperCase();
+
+            btn.disabled = true;
+            status.innerText = "SCANNING POOL...";
+            status.className = "status-scanning";
+
+            printLog(`> CRITICAL SEQUENCE INIT: TARGET ${asset}/USD`);
+
+            // Artificial non-blocking computational steps to display analysis passes
+            await new Promise(r => setTimeout(r, 600));
+            printLog(`> ENGAGING TICK EXTRACTION NODE... CURRENT SPOT: $${currentPrice}`);
+
+            await new Promise(r => setTimeout(r, 800));
+            if(priceHistory.length < 3) {
+                printLog("> WARNING: COLLECTING VOLATILITY TREND SAMPLES. RE-SCANNING IN 3s...");
+                await updatePriceTick();
+                await new Promise(r => setTimeout(r, 1200));
+            }
+
+            // Real Computational Analysis Algorithm (Simple Momentum Trend tracking)
+            printLog("> RUNNING MOMENTUM OSCILLATOR INDEX ANALYSIS...");
+            await updatePriceTick();
+
+            let trendScore = 0;
+            for(let i = 1; i < priceHistory.length; i++) {
+                if(priceHistory[i] > priceHistory[i-1]) trendScore++;
+                if(priceHistory[i] < priceHistory[i-1]) trendScore--;
+            }
+
+            await new Promise(r => setTimeout(r, 700));
+            printLog(`> COMPUTATION VALUE MATRIX MATCHED: [SCORE ${trendScore}]`);
+
+            // Output authentic evaluation results to elements
+            if(trendScore > 0) {
+                signalBox.className = "signal-window call-bg";
+                signalResult.innerText = `BUY ORDER INDICATED FOR ${asset}`;
+                printLog(`> ALGORITHM DETERMINATION: POSITIVE DELTA DETECTED. EXECUTE HIGHER ENTRY.`, false, true);
+            } else if (trendScore < 0) {
+                signalBox.className = "signal-window put-bg";
+                signalResult.innerText = `SELL ORDER INDICATED FOR ${asset}`;
+                printLog(`> ALGORITHM DETERMINATION: NEGATIVE DELTA DETECTED. EXECUTE LOWER ENTRY.`, false, true);
+            } else {
+                signalBox.className = "signal-window neutral-bg";
+                signalResult.innerText = "CONSOLIDATION: AVOID TRADING";
+                printLog(`> ALGORITHM DETERMINATION: FLATLINE NOISE DIRECTION. RETAIN POSITION.`, true);
+            }
+
+            btn.disabled = false;
+            status.innerText = "ONLINE";
+            status.className = "status-ready";
+        }
+
+        // Loop the market feed capture initialization loop
+        setInterval(updatePriceTick, 4000);
+        updatePriceTick();
+    </script>
+</body>
+</html>
